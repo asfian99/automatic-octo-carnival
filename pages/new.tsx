@@ -3,9 +3,18 @@ import Head from "next/head";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useRouter } from "next/router";
 import SnippetForm from "../components/SnippetForm";
+import type { snippetType } from "../components/SnippetForm";
 
 function New() {
   const router = useRouter();
+  const data: snippetType = {
+    data: {
+      code: "code",
+      language: "language",
+      description: "description",
+      name: "name",
+    },
+  };
   return (
     <div>
       <Head>
@@ -23,7 +32,7 @@ function New() {
           </button>
           <p className="font-bold text-3xl">New Snippet</p>
         </div>
-        <SnippetForm />
+        <SnippetForm snippet={data} />
       </main>
     </div>
   );
