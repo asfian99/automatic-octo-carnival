@@ -7,12 +7,13 @@ import type { snippetType } from "../components/SnippetForm";
 
 function New() {
   const router = useRouter();
-  const data: snippetType = {
+  const data = {
     data: {
-      code: "code",
+      username: "username",
+      title: "title",
       language: "language",
       description: "description",
-      name: "name",
+      code: "code",
     },
   };
   return (

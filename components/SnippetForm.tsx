@@ -1,27 +1,45 @@
 import React from "react";
+import axios from "axios";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 
 export interface snippetType {
-  data: {
-    code: string;
-    language: string;
-    description: string;
-    name: string;
-  };
+  username: string;
+  title: string;
+  language: string;
+  description: string;
+  code: string;
 }
 
 function SnippetForm({ snippet }) {
   const router = useRouter();
   const { register, handleSubmit, errors, reset } = useForm({
     defaultValues: {
-      code: snippet ? snippet.data.code : "",
+      username: snippet ? snippet.data.username : "",
+      title: snippet ? snippet.data.title : "",
       language: snippet ? snippet.data.language : "",
       description: snippet ? snippet.data.description : "",
-      name: snippet ? snippet.data.name : "",
+      code: snippet ? snippet.data.code : "",
     },
   });
+
+  const createSnippet = async (data: snippetType) => {
+    const { username, title, language, description, code } = data;
+    try {
+      const resData = await axios.post("/api/createSnippet", {
+        username,
+        title,
+        language,
+        description,
+        code,
+      });
+      console.log(resData.data);
+      router.push("/");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
@@ -29,17 +47,34 @@ function SnippetForm({ snippet }) {
         <form action="">
           <div className="mb-4">
             <label
-              htmlFor="name"
+              htmlFor="username"
               className="block text-md font-medium text-gray-700"
             >
-              Name
+              Username
             </label>
             <input
               type="text"
-              id="name"
-              name="name"
+              id="username"
+              name="username"
               className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-4 pr-12 sm:text-sm border-gray-300 rounded-md"
-              placeholder="Snippet Name"
+              placeholder="Username"
+              ref={register({ required: true })}
+            />
+          </div>
+
+          <div className="mb-4">
+            <label
+              htmlFor="title"
+              className="block text-md font-medium text-gray-700"
+            >
+              Title
+            </label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-4 pr-12 sm:text-sm border-gray-300 rounded-md"
+              placeholder="Snippet Title"
               ref={register({ required: true })}
             />
           </div>
@@ -95,14 +130,14 @@ function SnippetForm({ snippet }) {
             ></textarea>
           </div>
           <div className="justify-self-end space-x-4">
+            <button className="bg-blue-200 hover:bg-blue-300 text-blue-800 font-medium text-sm py-2 px-4 inline-flex items-center space-x-2 shadow-sm rounded-md focus:outline-none focus:shadow-outline">
+              Save
+            </button>
             <Link href="/">
               <button className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium text-sm py-2 px-4 inline-flex items-center space-x-2 shadow-sm rounded-md focus:outline-none focus:shadow-outline">
                 Cancel
               </button>
             </Link>
-            <button className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium text-sm py-2 px-4 inline-flex items-center space-x-2 shadow-sm rounded-md focus:outline-none focus:shadow-outline">
-              Save
-            </button>
           </div>
         </form>
       </div>

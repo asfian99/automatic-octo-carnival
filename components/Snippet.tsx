@@ -23,13 +23,14 @@ export default function Snippet() {
   };
   return (
     <div className="p-4 rounded-md my-2 border border-gray-400">
-      <div className="flex items-center justify-between mb-2">
-        <h2 className="text-xl text-gray-800 font-bold">snippet.data.name</h2>
-        <span className="font-bold text-sm text-blue-800 px-2 py-1 rounded-lg ">
+      <div className="flex flex-col-reverse md:flex-row items-start md:items-center justify-between">
+        <h2 className="text-xl text-gray-800 font-bold">snippet.data.title</h2>
+        <span className="font-bold text-sm text-blue-800 md:px-2 py-1 rounded-lg ">
           snippet.data.language
         </span>
       </div>
-      <p className="text-gray-900 mb-4">snippet.data.description</p>
+      <p className="text-blue-800 font-medium mb-2">snippet.data.username</p>
+      <p className="text-gray-700 mb-4">snippet.data.description</p>
 
       <Code code="snippet.data.code" />
 
