@@ -1,12 +1,15 @@
 import { AppProps } from "next/app";
+import { QueryClient, QueryClientProvider } from "react-query";
 import Navbar from "../components/Navbar";
 import Head from "next/head";
 
 import "../styles/globals.css";
 
+const queryClient = new QueryClient();
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <Head>
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
@@ -21,7 +24,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </div>
       </div>
-    </>
+    </QueryClientProvider>
   );
 }
 

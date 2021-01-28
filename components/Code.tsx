@@ -16,7 +16,7 @@ function Code({ code }) {
   return (
     <div>
       <button
-        className="mb-2 bg-blue-200 hover:bg-blue-300 text-blue-800 font-medium text-sm py-2 px-4 inline-flex items-center space-x-2 shadow-sm rounded-md focus:outline-none focus:shadow-outline"
+        className="mb-1 bg-blue-200 hover:bg-blue-300 text-blue-800 font-medium text-sm py-2 px-4 inline-flex items-center space-x-2 shadow-sm rounded-md focus:outline-none focus:shadow-outline"
         onClick={() => setShowCode(!showCode)}
         type="submit"
       >
