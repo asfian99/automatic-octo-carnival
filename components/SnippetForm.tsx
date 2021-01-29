@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
@@ -19,6 +19,7 @@ function SnippetForm({ snippet }) {
   const toast = useToast();
   const queryClient = useQueryClient();
   const router = useRouter();
+  const [isSaving, setIsSaving] = useState(false);
   const languageList = [
     "HTML",
     "CSS",
@@ -49,6 +50,7 @@ function SnippetForm({ snippet }) {
 
   // Function untuk meng-Handle hapus data
   const createSnippet = (formData: snippetType) => {
+    setIsSaving(true);
     createSnippetMutation.mutate(formData, {
       onSuccess: (data) => {
         queryClient.invalidateQueries("snippets");
@@ -59,6 +61,7 @@ function SnippetForm({ snippet }) {
           status: "success",
           isClosable: true,
         });
+        setIsSaving(false);
         router.replace("/");
       },
       onError: (error) => console.log(error),
@@ -166,19 +169,17 @@ function SnippetForm({ snippet }) {
             <Button
               type="submit"
               fontSize="sm"
+              color="blue.800"
+              rounded="md"
               bg="blue.100"
               _hover={{ bg: "blue.200" }}
-              isLoading={formState.isSubmitting}
+              isLoading={isSaving}
               loadingText="Saving"
-              className="text-blue-800 py-2 px-4 inline-flex items-center space-x-2 shadow-sm rounded-md focus:outline-none focus:shadow-outline"
             >
               Save
             </Button>
             <Link href="/">
-              <Button
-                fontSize="sm"
-                className="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 inline-flex items-center space-x-2 shadow-sm rounded-md focus:outline-none focus:shadow-outline"
-              >
+              <Button fontSize="sm" rounded="md">
                 Cancel
               </Button>
             </Link>

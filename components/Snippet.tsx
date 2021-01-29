@@ -39,6 +39,7 @@ export default function Snippet({ snippet }) {
           status: "success",
           isClosable: true,
         });
+        onClose();
         setIsDeleting(false);
       },
       onError: (error) => console.log(error),
