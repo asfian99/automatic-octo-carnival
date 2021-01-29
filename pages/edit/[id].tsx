@@ -9,22 +9,14 @@ import type { snippetType } from "../../components/SnippetForm";
 import axios from "axios";
 
 function Edit({ data }) {
-  console.log(data);
+  // console.log(data);
 
   const router = useRouter();
-  // const data = {
-  //   data: {
-  //     username: "username",
-  //     title: "title",
-  //     language: "language",
-  //     description: "description",
-  //     code: "code",
-  //   },
-  // };
+
   return (
     <div>
       <Head>
-        <title>New Snippet</title>
+        <title>Edit Snippet</title>
       </Head>
 
       <main className="max-w-lg mx-auto">
@@ -36,7 +28,7 @@ function Edit({ data }) {
             <AiOutlineArrowLeft />
             <span>Back</span>
           </button>
-          <p className="font-bold text-3xl">New Snippet</p>
+          <p className="font-bold text-3xl">Edit Snippet</p>
         </div>
         <SnippetForm snippet={data[0]} />
       </main>

@@ -2,7 +2,10 @@ import React from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import { useMutation, useQueryClient } from "react-query";
+import { useToast } from "@chakra-ui/react";
 import Link from "next/link";
+import updateSnippet from "../pages/api/updateSnippet";
 
 export interface snippetType {
   username: string;
@@ -13,38 +16,80 @@ export interface snippetType {
 }
 
 function SnippetForm({ snippet }) {
+  const toast = useToast();
+  const queryClient = useQueryClient();
   const router = useRouter();
+  const languageList = [
+    "HTML",
+    "CSS",
+    "Javascript",
+    "Typescript",
+    "Python",
+    "Java",
+    "Rust",
+    "Other",
+  ];
   const { register, handleSubmit, errors, reset } = useForm({
+    reValidateMode: "onSubmit",
     defaultValues: {
-      username: snippet ? snippet.username : "",
-      title: snippet ? snippet.title : "",
-      language: snippet ? snippet.language : "",
-      description: snippet ? snippet.description : "",
-      code: snippet ? snippet.code : "",
+      username: snippet ? snippet.username : undefined,
+      title: snippet ? snippet.title : undefined,
+      language: snippet ? snippet.language : undefined,
+      description: snippet ? snippet.description : undefined,
+      code: snippet ? snippet.code : undefined,
     },
   });
 
-  const createSnippet = async (data: snippetType) => {
-    const { username, title, language, description, code } = data;
-    try {
-      const resData = await axios.post("/api/createSnippet", {
-        username,
-        title,
-        language,
-        description,
-        code,
-      });
-      console.log(resData.data);
-      router.push("/");
-    } catch (err) {
-      console.log(err);
-    }
+  const createSnippetMutation = useMutation((snippetData: snippetType) => {
+    return axios.post(`/api/createSnippet`, snippetData);
+  });
+  // const updateSnippetMutation = useMutation((snippetID) =>
+  //   axios.put(`/api/updateSnippet/${snippetID}`)
+  // );
+
+  // Function untuk meng-Handle hapus data
+  const createSnippet = (formData: snippetType) => {
+    createSnippetMutation.mutate(formData, {
+      onSuccess: (data) => {
+        queryClient.invalidateQueries("snippets");
+        toast({
+          position: "bottom-right",
+          duration: 4000,
+          description: "Snippet Created.",
+          status: "success",
+          isClosable: true,
+        });
+        router.replace("/");
+      },
+      onError: (error) => console.log(error),
+    });
+  };
+
+  // const createSnippet = async (data: snippetType) => {
+  //   const { username, title, language, description, code } = data;
+  //   try {
+  //     const resData = await axios.post("/api/createSnippet", {
+  //       username,
+  //       title,
+  //       language,
+  //       description,
+  //       code,
+  //     });
+  //     console.log(resData.data);
+  //     router.push("/");
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
+  const updateSnippet = async (data: snippetType) => {
+    console.log("update");
   };
 
   return (
     <>
       <div className="bg-white p-4 rounded-md my-2 border border-gray-400">
-        <form action="">
+        <form onSubmit={handleSubmit(snippet ? updateSnippet : createSnippet)}>
           <div className="mb-4">
             <label
               htmlFor="username"
@@ -92,9 +137,11 @@ function SnippetForm({ snippet }) {
               ref={register({ required: true })}
               className="pl-4 py-2 pr-6 focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
             >
-              <option className="py-2">JavaScript</option>
-              <option className="py-2">HTML</option>
-              <option className="py-2">CSS</option>
+              {languageList.map((lang, i) => (
+                <option key={i} className="py-2">
+                  {lang}
+                </option>
+              ))}
             </select>
           </div>
 

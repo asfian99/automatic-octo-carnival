@@ -7,15 +7,7 @@ import type { snippetType } from "../components/SnippetForm";
 
 function New() {
   const router = useRouter();
-  const data = {
-    data: {
-      username: "username",
-      title: "title",
-      language: "language",
-      description: "description",
-      code: "code",
-    },
-  };
+
   return (
     <div>
       <Head>
@@ -33,7 +25,7 @@ function New() {
           </button>
           <p className="font-bold text-3xl">New Snippet</p>
         </div>
-        <SnippetForm snippet={data} />
+        <SnippetForm snippet={undefined} />
       </main>
     </div>
   );
