@@ -3,7 +3,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
-import { useToast } from "@chakra-ui/react";
+import { useToast, Button } from "@chakra-ui/react";
 import Link from "next/link";
 import updateSnippet from "../pages/api/updateSnippet";
 
@@ -29,7 +29,7 @@ function SnippetForm({ snippet }) {
     "Rust",
     "Other",
   ];
-  const { register, handleSubmit, errors, reset } = useForm({
+  const { register, handleSubmit, formState, errors, reset } = useForm({
     reValidateMode: "onSubmit",
     defaultValues: {
       username: snippet ? snippet.username : undefined,
@@ -64,23 +64,6 @@ function SnippetForm({ snippet }) {
       onError: (error) => console.log(error),
     });
   };
-
-  // const createSnippet = async (data: snippetType) => {
-  //   const { username, title, language, description, code } = data;
-  //   try {
-  //     const resData = await axios.post("/api/createSnippet", {
-  //       username,
-  //       title,
-  //       language,
-  //       description,
-  //       code,
-  //     });
-  //     console.log(resData.data);
-  //     router.push("/");
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
 
   const updateSnippet = async (data: snippetType) => {
     console.log("update");
@@ -180,13 +163,24 @@ function SnippetForm({ snippet }) {
           </div>
 
           <div className="justify-self-end space-x-4">
-            <button className="bg-blue-200 hover:bg-blue-300 text-blue-800 font-medium text-sm py-2 px-4 inline-flex items-center space-x-2 shadow-sm rounded-md focus:outline-none focus:shadow-outline">
+            <Button
+              type="submit"
+              fontSize="sm"
+              bg="blue.100"
+              _hover={{ bg: "blue.200" }}
+              isLoading={formState.isSubmitting}
+              loadingText="Saving"
+              className="text-blue-800 py-2 px-4 inline-flex items-center space-x-2 shadow-sm rounded-md focus:outline-none focus:shadow-outline"
+            >
               Save
-            </button>
+            </Button>
             <Link href="/">
-              <button className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium text-sm py-2 px-4 inline-flex items-center space-x-2 shadow-sm rounded-md focus:outline-none focus:shadow-outline">
+              <Button
+                fontSize="sm"
+                className="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 inline-flex items-center space-x-2 shadow-sm rounded-md focus:outline-none focus:shadow-outline"
+              >
                 Cancel
-              </button>
+              </Button>
             </Link>
           </div>
         </form>

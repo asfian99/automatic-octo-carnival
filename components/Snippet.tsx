@@ -17,6 +17,7 @@ export default function Snippet({ snippet }) {
   const queryClient = useQueryClient();
   const router = useRouter();
   const toast = useToast();
+  const [isDeleting, setIsDeleting] = useState(false);
   const [like, setLike] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
@@ -27,7 +28,7 @@ export default function Snippet({ snippet }) {
 
   // Function untuk meng-Handle hapus data
   const deleteHandler = () => {
-    onOpen();
+    setIsDeleting(true);
     deleteSnippet.mutate(snippet._id, {
       onSuccess: (data) => {
         queryClient.invalidateQueries("snippets");
@@ -38,6 +39,7 @@ export default function Snippet({ snippet }) {
           status: "success",
           isClosable: true,
         });
+        setIsDeleting(false);
       },
       onError: (error) => console.log(error),
     });
@@ -84,6 +86,7 @@ export default function Snippet({ snippet }) {
 
       <DeleteAlert
         deleteHandler={deleteHandler}
+        isDeleting={isDeleting}
         isOpen={isOpen}
         onClose={onClose}
         cancelRef={cancelRef}

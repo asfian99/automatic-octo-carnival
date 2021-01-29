@@ -10,7 +10,13 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-function DeleteAlert({ deleteHandler, isOpen, onClose, cancelRef }) {
+function DeleteAlert({
+  deleteHandler,
+  isDeleting,
+  isOpen,
+  onClose,
+  cancelRef,
+}) {
   return (
     <>
       <AlertDialog
@@ -38,6 +44,8 @@ function DeleteAlert({ deleteHandler, isOpen, onClose, cancelRef }) {
               Cancel
             </Button>
             <Button
+              isLoading={isDeleting}
+              loadingText="deleting"
               onClick={deleteHandler}
               colorScheme="red"
               ml={3}
