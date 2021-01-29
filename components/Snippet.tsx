@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import Code from "./Code";
 import Link from "next/link";
 import { useMutation, useQueryClient } from "react-query";
 import { useRouter } from "next/router";
-import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import DeleteAlert from "./DeleteAlert";
+import { useDisclosure, useToast, Box } from "@chakra-ui/react";
+import {
+  AiFillDelete,
+  AiFillEdit,
+  AiOutlineHeart,
+  AiFillHeart,
+} from "react-icons/ai";
 
 export default function Snippet({ snippet }) {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const toast = useToast();
+  const [like, setLike] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef();
 
   const deleteSnippet = useMutation((snippetID) =>
     axios.delete(`/api/deleteSnippet/${snippetID}`)
@@ -16,8 +27,18 @@ export default function Snippet({ snippet }) {
 
   // Function untuk meng-Handle hapus data
   const deleteHandler = () => {
+    onOpen();
     deleteSnippet.mutate(snippet._id, {
-      onSuccess: (data) => queryClient.invalidateQueries("snippets"),
+      onSuccess: (data) => {
+        queryClient.invalidateQueries("snippets");
+        toast({
+          position: "bottom-right",
+          duration: 4000,
+          description: "Snippet Deleted.",
+          status: "success",
+          isClosable: true,
+        });
+      },
       onError: (error) => console.log(error),
     });
   };
@@ -35,19 +56,38 @@ export default function Snippet({ snippet }) {
 
       <Code code={snippet.code} />
 
-      <div className="flex flex-row justify-end">
-        <Link href={`/edit/1`}>
-          <button className="px-4 py-2 bg-indigo-200 hover:bg-indigo-300 text-indigo-800 rounded-md shadow-sm mt-2 mr-2">
-            <AiFillEdit />
+      <div className="flex flex-row justify-between mt-2">
+        <div className="flex flex-row items-center">
+          <button
+            onClick={() => setLike(!like)}
+            className=" text-gray-500 hover:text-red-500 text-3xl font-semibold rounded-md shadow-sm mr-2 focus:outline-none focus:shadow-outline"
+          >
+            {like ? <AiFillHeart /> : <AiOutlineHeart />}
           </button>
-        </Link>
-        <button
-          onClick={deleteHandler}
-          className="px-4 py-2 bg-red-200 hover:bg-red-300 text-red-800 rounded-md shadow-sm mt-2 mr-2"
-        >
-          <AiFillDelete />
-        </button>
+          <p>{snippet.like}</p>
+        </div>
+
+        <div>
+          <Link href={`/edit/${snippet._id}`}>
+            <button className="px-4 py-2 bg-indigo-200 hover:bg-indigo-300 text-indigo-800 rounded-md shadow-sm mr-2">
+              <AiFillEdit />
+            </button>
+          </Link>
+          <button
+            onClick={onOpen}
+            className="px-4 py-2 bg-red-200 hover:bg-red-300 text-red-800 rounded-md shadow-sm mr-2"
+          >
+            <AiFillDelete />
+          </button>
+        </div>
       </div>
+
+      <DeleteAlert
+        deleteHandler={deleteHandler}
+        isOpen={isOpen}
+        onClose={onClose}
+        cancelRef={cancelRef}
+      />
     </div>
   );
 }

@@ -2,6 +2,8 @@ import { MongoClient } from "mongodb";
 
 const { MONGODB_URI, MONGODB_DB } = process.env;
 
+export const URL: string = process.env.URL || "http://localhost:3000";
+
 declare global {
   namespace NodeJS {
     interface Global {

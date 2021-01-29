@@ -16,11 +16,11 @@ function SnippetForm({ snippet }) {
   const router = useRouter();
   const { register, handleSubmit, errors, reset } = useForm({
     defaultValues: {
-      username: snippet ? snippet.data.username : "",
-      title: snippet ? snippet.data.title : "",
-      language: snippet ? snippet.data.language : "",
-      description: snippet ? snippet.data.description : "",
-      code: snippet ? snippet.data.code : "",
+      username: snippet ? snippet.username : "",
+      title: snippet ? snippet.title : "",
+      language: snippet ? snippet.language : "",
+      description: snippet ? snippet.description : "",
+      code: snippet ? snippet.code : "",
     },
   });
 
@@ -90,7 +90,7 @@ function SnippetForm({ snippet }) {
               id="language"
               name="language"
               ref={register({ required: true })}
-              className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-4 pr-12 sm:text-sm border-gray-300 rounded-md"
+              className="pl-4 py-2 pr-6 focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
             >
               <option className="py-2">JavaScript</option>
               <option className="py-2">HTML</option>
@@ -109,8 +109,9 @@ function SnippetForm({ snippet }) {
               id="description"
               name="description"
               rows={2}
-              className="shadow-sm focus:ring-blue-500 focus:border-blue-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"
+              className="pl-4 py-2 pr-6 shadow-sm focus:ring-blue-500 focus:border-blue-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"
               placeholder="What does the snippet do?"
+              ref={register({ required: true })}
             ></textarea>
           </div>
 
@@ -125,10 +126,12 @@ function SnippetForm({ snippet }) {
               id="code"
               name="code"
               rows={6}
-              className="shadow-sm focus:ring-blue-500 focus:border-blue-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"
+              className="pl-4 py-2 pr-6 shadow-sm focus:ring-blue-500 focus:border-blue-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"
               placeholder="What does the snippet do?"
+              ref={register({ required: true })}
             ></textarea>
           </div>
+
           <div className="justify-self-end space-x-4">
             <button className="bg-blue-200 hover:bg-blue-300 text-blue-800 font-medium text-sm py-2 px-4 inline-flex items-center space-x-2 shadow-sm rounded-md focus:outline-none focus:shadow-outline">
               Save
