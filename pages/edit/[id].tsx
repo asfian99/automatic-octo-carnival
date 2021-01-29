@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import { URL } from "../../utils/mongodb";
+import { URL } from "../../utils/url";
 import { GetServerSideProps } from "next";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useRouter } from "next/router";
@@ -48,7 +48,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const { id } = context.params;
     const { data } = await axios.get(`${URL}/api/snippet/${id}`);
-    // console.log(res);
+
     return {
       props: { data },
     };

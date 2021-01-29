@@ -1,8 +1,9 @@
 import { useQuery, useMutation } from "react-query";
 import Head from "next/head";
 import Link from "next/link";
-import Snippet from "../components/Snippet";
 import axios from "axios";
+import Snippet from "../components/Snippet";
+import SkeletonIndex from "../components/SkeletonIndex";
 
 export default function Home() {
   const query = useQuery("snippets", getSnippets);
@@ -27,9 +28,7 @@ export default function Home() {
           </Link>
         </div>
 
-        {query.isLoading ? (
-          <p className="text-lg font-semibold my-4 text-center">Loading...</p>
-        ) : undefined}
+        {query.isLoading ? <SkeletonIndex /> : undefined}
 
         {query.isSuccess
           ? query.data.map((snippet) => {
