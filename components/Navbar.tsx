@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { Button } from "@chakra-ui/react";
 
 function Navbar() {
   return (
@@ -9,10 +10,15 @@ function Navbar() {
           snippet.bin
         </h1>
       </Link>
-      <a href="https://github.com/asfian99">
-        <button className="px-4 py-2 font-medium bg-gray-800 hover:bg-gray-900 text-gray-50 border border-gray-900 shadow-sm rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-gray-900">
+      <a target="_blank" href="https://github.com/asfian99">
+        <Button
+          color="white"
+          bg="black"
+          _hover={{ bg: "gray.700" }}
+          shadow="sm"
+        >
           Github
-        </button>
+        </Button>
       </a>
     </div>
   );

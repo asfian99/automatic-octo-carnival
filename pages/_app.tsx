@@ -1,10 +1,20 @@
 import { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Head from "next/head";
+import Router from "next/router";
+import NProgress from "nprogress";
+import HeadProps from "../components/HeadProps";
 import Navbar from "../components/Navbar";
-import { ChakraProvider, CSSReset } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 
 import "../styles/globals.css";
+
+Router.events.on("routeChangeStart", (url) => {
+  console.log(`Loading: ${url}`);
+  NProgress.start();
+});
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
 
 const queryClient = new QueryClient();
 
@@ -13,11 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <ChakraProvider>
         <Head>
-          <link rel="preconnect" href="https://fonts.gstatic.com" />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-            rel="stylesheet"
-          />
+          <HeadProps />
         </Head>
 
         <div className="font-inter min-h-screen w-full bg-white text-gray-800">

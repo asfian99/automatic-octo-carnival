@@ -16,7 +16,7 @@ function Edit({ data }) {
   return (
     <div>
       <Head>
-        <title>Edit Snippet</title>
+        <title>Edit Snippet | snippet.bin</title>
       </Head>
 
       <main className="max-w-lg mx-auto">

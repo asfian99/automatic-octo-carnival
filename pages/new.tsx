@@ -11,7 +11,7 @@ function New() {
   return (
     <div>
       <Head>
-        <title>New Snippet</title>
+        <title>New Snippet | snippet.bin</title>
       </Head>
 
       <main className="max-w-lg mx-auto">

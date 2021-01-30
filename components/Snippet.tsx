@@ -63,6 +63,7 @@ export default function Snippet({ snippet }) {
         <div className="flex flex-row items-center">
           <button
             onClick={() => setLike(!like)}
+            name="like"
             className=" text-gray-500 hover:text-red-500 text-3xl font-semibold rounded-md shadow-sm mr-2 focus:outline-none focus:shadow-outline"
           >
             {like ? <AiFillHeart /> : <AiOutlineHeart />}
@@ -72,12 +73,16 @@ export default function Snippet({ snippet }) {
 
         <div>
           <Link href={`/edit/${snippet._id}`}>
-            <button className="px-4 py-2 bg-indigo-200 hover:bg-indigo-300 text-indigo-800 rounded-md shadow-sm mr-2">
+            <button
+              name="edit"
+              className="px-4 py-2 bg-indigo-200 hover:bg-indigo-300 text-indigo-800 rounded-md shadow-sm mr-2"
+            >
               <AiFillEdit />
             </button>
           </Link>
           <button
             onClick={onOpen}
+            name="delete"
             className="px-4 py-2 bg-red-200 hover:bg-red-300 text-red-800 rounded-md shadow-sm mr-2"
           >
             <AiFillDelete />

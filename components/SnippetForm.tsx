@@ -52,7 +52,7 @@ function SnippetForm({ snippet }) {
     setIsSaving(true);
     createSnippetMutation.mutate(formData, {
       onSuccess: (data) => {
-        console.log(data);
+        // console.log(data);
         queryClient.invalidateQueries("snippets");
         toast({
           position: "bottom-right",
@@ -72,7 +72,7 @@ function SnippetForm({ snippet }) {
     setIsSaving(true);
     updateSnippetMutation.mutate(formData, {
       onSuccess: (data) => {
-        console.log(data);
+        // console.log(data);
         queryClient.invalidateQueries("snippets");
         toast({
           position: "bottom-right",
