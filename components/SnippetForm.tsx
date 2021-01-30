@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { URL } from "../utils/url";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import { useToast, Button } from "@chakra-ui/react";
 import Link from "next/link";
-import updateSnippet from "../pages/api/updateSnippet";
 
 export interface snippetType {
   username: string;
@@ -41,18 +41,18 @@ function SnippetForm({ snippet }) {
     },
   });
 
-  const createSnippetMutation = useMutation((snippetData: snippetType) => {
-    return axios.post(`/api/createSnippet`, snippetData);
-  });
-  // const updateSnippetMutation = useMutation((snippetID) =>
-  //   axios.put(`/api/updateSnippet/${snippetID}`)
-  // );
+  const createSnippetMutation = useMutation((snippetData: snippetType) =>
+    axios.post(`${URL}/api/createSnippet`, snippetData)
+  );
+  const updateSnippetMutation = useMutation((snippetData: snippetType) =>
+    axios.put(`${URL}/api/updateSnippet/${snippet._id}`, snippetData)
+  );
 
-  // Function untuk meng-Handle hapus data
   const createSnippet = (formData: snippetType) => {
     setIsSaving(true);
     createSnippetMutation.mutate(formData, {
       onSuccess: (data) => {
+        console.log(data);
         queryClient.invalidateQueries("snippets");
         toast({
           position: "bottom-right",
@@ -68,8 +68,24 @@ function SnippetForm({ snippet }) {
     });
   };
 
-  const updateSnippet = async (data: snippetType) => {
-    console.log("update");
+  const updateSnippet = async (formData: snippetType) => {
+    setIsSaving(true);
+    updateSnippetMutation.mutate(formData, {
+      onSuccess: (data) => {
+        console.log(data);
+        queryClient.invalidateQueries("snippets");
+        toast({
+          position: "bottom-right",
+          duration: 4000,
+          description: "Snippet Updated.",
+          status: "success",
+          isClosable: true,
+        });
+        setIsSaving(false);
+        router.replace("/");
+      },
+      onError: (error) => console.log(error),
+    });
   };
 
   return (

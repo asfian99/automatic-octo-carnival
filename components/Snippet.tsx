@@ -67,7 +67,7 @@ export default function Snippet({ snippet }) {
           >
             {like ? <AiFillHeart /> : <AiOutlineHeart />}
           </button>
-          <p>{snippet.like}</p>
+          <p className="text-gray-500">{snippet.like}</p>
         </div>
 
         <div>
