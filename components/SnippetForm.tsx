@@ -42,10 +42,10 @@ function SnippetForm({ snippet }) {
   });
 
   const createSnippetMutation = useMutation((snippetData: snippetType) =>
-    axios.post(`${URL}/api/createSnippet`, snippetData)
+    axios.post(`/api/createSnippet`, snippetData)
   );
   const updateSnippetMutation = useMutation((snippetData: snippetType) =>
-    axios.put(`${URL}/api/updateSnippet/${snippet._id}`, snippetData)
+    axios.put(`/api/updateSnippet/${snippet._id}`, snippetData)
   );
 
   const createSnippet = (formData: snippetType) => {
