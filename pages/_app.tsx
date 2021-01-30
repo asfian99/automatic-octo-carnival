@@ -24,6 +24,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ChakraProvider>
         <Head>
           <HeadProps />
+          <link rel="stylesheet" type="text/css" href="/nprogress.css" />
         </Head>
 
         <div className="font-inter min-h-screen w-full bg-white text-gray-800">
