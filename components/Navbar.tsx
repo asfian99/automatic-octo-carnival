@@ -10,7 +10,7 @@ function Navbar() {
           snippet.bin
         </h1>
       </Link>
-      <a target="_blank" href="https://github.com/asfian99">
+      <a target="_blank" href="https://github.com/rulasfia">
         <Button
           color="white"
           bg="black"

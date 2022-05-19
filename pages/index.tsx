@@ -30,7 +30,7 @@ export default function Home() {
         {query.isLoading ? <SkeletonIndex /> : undefined}
 
         {query.isSuccess
-          ? query.data.map((snippet) => {
+          ? query.data?.map((snippet) => {
               return <Snippet key={snippet._id} snippet={snippet} />;
             })
           : undefined}
